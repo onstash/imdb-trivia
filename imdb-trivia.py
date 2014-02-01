@@ -1,3 +1,8 @@
+"""
+	TO DO:
+		Use webbrowser module to open the triviaHTML after it is saved.
+"""
+
 import json
 import urllib2
 
