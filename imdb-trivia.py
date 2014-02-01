@@ -21,7 +21,7 @@ def get_info(movie_name):
 def get_links(movie_info):
 	
 	#URL Definitions
-	if movie_info["Response"] = "True":
+	if movie_info["Response"] == "True":
 		imdbURL = "http://www.imdb.com/title/" + str(movie_info["imdbID"])
 		posterURL = movie_info["Poster"]
 		triviaURL = imdbURL + "/trivia?ref_=tt_trv_trv"
