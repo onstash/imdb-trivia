@@ -11,9 +11,8 @@ import webbrowser as browser
 
 def open_trivia(triviaHTML):
 	print "\n\t\t Opening TRIVIA page..."
-	trivia_link = 'file:'+triviaHTML
 	try:
-		browser.open_new(trivia_link)
+		browser.open_new(triviaHTML)
 	except:
 		browser.error
 
