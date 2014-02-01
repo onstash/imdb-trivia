@@ -8,7 +8,7 @@ movie_name = raw_input('Enter the movie name:')
 
 print "\n\t Fetching required JSON File..\n"	
 response = urllib2.urlopen('http://www.omdbapi.com/?t='+str(movie_name))
-movie_info = json.loads(response)
+movie_info = json.load(response)
 	
 #URL Definitions
 if movie_info["Response"] = "True":
