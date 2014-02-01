@@ -1,12 +1,21 @@
 """
-TO DO:
-Use webbrowser module to open the triviaHTML after it is saved.
+	TO DO:
+		Use webbrowser module to open the triviaHTML after it is saved.
 """
 
 import sys
 import json
 import urllib2
 import os
+import webbrowser as browser
+
+def open_trivia(triviaHTML):
+	print "\n\t\t Opening TRIVIA page..."
+	trivia_link = 'file:'+triviaHTML
+	try:
+		browser.open_new(trivia_link)
+	except:
+		browser.error
 
 def get_movie():
 	print "\n\n**ENTER MOVIE NAME WITH SPACES**"
