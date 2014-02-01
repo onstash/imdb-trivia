@@ -105,3 +105,7 @@ def main():
 		poster_file = get_poster(posterURL)
 		
 	print_details(movie_info)
+	
+
+if __name__ == '__main__':
+	main()
