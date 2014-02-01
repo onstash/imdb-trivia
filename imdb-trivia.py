@@ -9,12 +9,14 @@ import urllib2
 import os
 
 def get_movie():
-	print "\n\n\tWelcome to the MOVIE POSTER and TRIVIA downloader v0.01a"
 	print "\n\n**ENTER MOVIE NAME WITH SPACES**"
 	movie_name = raw_input('Enter the movie name:')
 	return movie_name
 
 def get_info(movie_name):
+	"""
+		This method takes the string 'movie_name' as an argument and returns a json file.
+	"""
 	print "\n\t Fetching required JSON File..\n"
 	movie_search = movie_name.replace(" ","+")
 	url = "http://www.omdbapi.com/?t="+str(movie_search)
@@ -23,7 +25,9 @@ def get_info(movie_name):
 	return (movie_info)
 
 def get_links(movie_info):
-
+	"""
+		This method takes the json 'movie_info' as an argument, checks if the "Response" is "True" i.e. checks if the 'movie_name' exists in imDB or not and returns three links : imdbURL,triviaURL,posterURL.
+	"""
 	#URL Definitions
 	if movie_info["Response"] == "True":
 		imdbURL = "http://www.imdb.com/title/" + str(movie_info["imdbID"])
@@ -36,7 +40,9 @@ def get_links(movie_info):
 		return (None,None,None)
 
 def print_details(movie_info, imdbURL, triviaURL, posterURL):
-	#imdbURL,triviaURL,posterURL = get_links(movie_data)
+	"""
+		This method takes 4 arguments : a json file movie_info, imbdURL, triviaURL, posterURL and prints detials regarding the movie_name. 
+	"""
 	#Printing Details
 	print "\n" + ("-" * 80)
 	print "\n\t Title \t\t-\t" + movie_info["Title"]
@@ -53,12 +59,13 @@ def print_details(movie_info, imdbURL, triviaURL, posterURL):
 	print "\n\t Plot \t\t-\t" + movie_info["Plot"]
 	print "\n\t Poster \t-\t" + posterURL
 	print "\n\t TriviaURL \t-\t" + triviaURL
-	#print "\n\t QuotesURL \t-\t" + quotesURL
 	print "\n" + ("-" * 80)
 
 def get_trivia(triviaURL, triviaHTML):
 	#Local Download Trivia of the movie
-
+	"""
+		This method takes 2 arguments : triviaURL, triviaHTML and saves a local copy of the trivia page related to the movie_name.
+	"""
 	if not os.path.exists(triviaHTML):
 		print "\n\t Downloading TRIVIA..."
 		response = urllib2.urlopen(triviaURL)
@@ -72,7 +79,9 @@ def get_trivia(triviaURL, triviaHTML):
 
 def get_poster(posterURL, poster_file):
 	#Download Poster of the movie
-
+	"""
+		This method takes 2 arguments : posterURL, poster_file and saves a local copy of the poster image related to the movie_name.
+	"""
 	if not os.path.exists(poster_file):
 		print "\n\t Downloading POSTER..."
 		response = urllib2.urlopen(posterURL)
@@ -94,37 +103,35 @@ def user_choice():
 	return choice
 
 def main():
+	print "\n\n\tWelcome to the MOVIE POSTER and TRIVIA downloader v0.2a"
 	movie_name = str(sys.argv[1])
 	
 	#movie_name = get_movie()
 	if "_" in movie_name:
 		movie_name = movie_name.replace("_"," ")
 		
-	print movie_name	
-		
 	movie_data = get_info(movie_name)
-	#posterURL = movie_data["Poster"]
 	
 	imdbURL,triviaURL,posterURL = get_links(movie_data)
 	poster_ext = posterURL[-4:]
 
-
-	triviaHTML = movie_name.replace(' ','_') + "-TRIVIA.html"
-	#print triviaHTML
+	if not imdbURL == None:
+		triviaHTML = movie_name.replace(' ','_') + "-TRIVIA.html"
+		#print triviaHTML
+		
+		poster_file = movie_name.replace(' ','_') + "-POSTER" + poster_ext
+		#print poster_file
 	
-	poster_file = movie_name.replace(' ','_') + "-POSTER" + poster_ext
-	#print poster_file
-
-	choice = user_choice()
-	if choice == 0:
-		get_poster(posterURL, poster_file)
-		get_trivia(triviaURL, triviaHTML)
-	elif choice == 1:
-		get_trivia(triviaURL)
-	elif choice == 2:
-		get_poster(posterURL)
-
-	print_details(movie_data, imdbURL, triviaURL, posterURL)
+		choice = user_choice()
+		if choice == 0:
+			get_poster(posterURL, poster_file)
+			get_trivia(triviaURL, triviaHTML)
+		elif choice == 1:
+			get_trivia(triviaURL)
+		elif choice == 2:
+			get_poster(posterURL)
+	
+		print_details(movie_data, imdbURL, triviaURL, posterURL)
 
 if __name__ == '__main__':
 	main()
